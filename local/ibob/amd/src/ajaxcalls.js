@@ -1,35 +1,28 @@
-define(['jquery', 'core/notification','core/ajax'],
-       function($, notification, ajax) {
-
-            function Ajaxcall() {
-                this.value = "ajax ok";
-            };
-
-            Ajaxcall.prototype.hello_word = function(itemid, txtareaupdate) {
-                var promises = ajax.call([{
-                    methodname: 'local_ibob_hello_world',
-                    args: {itemid: itemid},
-                    done: console.log("ajax done"),
-                    fail: notification.exception
-                }]);
-                promises[0].then(function(data) {
-                    console.log(data[0].content); //data contains webservice answer
-                    txtareaupdate(data[0].content);
+define(['jquery', 'core/notification', 'core/ajax'],
+    function ($,
+              notification,
+              ajax
+    ) {
+        return {
+            init: function () {
+                $(document).ready(function () {
+                    $('.ajaxcall').click(function (e) {
+                            var element = $(this);
+                            e.stopPropagation();
+                            e.preventDefault();
+                            var promises = ajax.call([{
+                                methodname: 'local_ibob_hello_world',
+                                args: {welcomemessage: "Hellow World!"},
+                                done: console.log("ajax done"),
+                                fail: notification.exception
+                            }]);
+                            promises[0].then(function (data) {
+                                console.log(data); //Data contains webservice answer.
+                                element.replaceWith(data);
+                            });
+                        }
+                    );
                 });
-            };
-
-            Ajaxcall.prototype.updatesettings = function(itemid, data2update1) {
-
-                var promises = ajax.call([{
-                    methodname: 'mod_testtest_updatesettings',
-                    args: {itemid: itemid, data2update: data2update1},
-                    //done: console.log("ajax done"),
-                    fail: notification.exception
-                }]);
-                promises[0].then(function(data) {
-                    console.log(data[0].content); //data contains webservice answer
-                });
-            };
-
-            return Ajaxcall;
-});
+            }
+        };
+    });

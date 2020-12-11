@@ -219,3 +219,17 @@ function local_ibob_myprofile_navigation(\core_user\output\myprofile\tree $tree,
         $tree->add_node($localnode);
     }
 }
+
+/**
+ * Adds the OBF-links to Moodle's settings navigation.
+ *
+ * @param settings_navigation $navigation
+ */
+function local_ibob_extend_settings_navigation(settings_navigation $navigation) {
+    global $COURSE;
+    $branch = $navigation->find('usercurrentsettings', navigation_node::TYPE_CONTAINER);
+    $ibobprefs = $branch->add(get_string('ibobprefs'), null, navigation_node::TYPE_CONTAINER, 'Ibob pref', 'ibobprefs');
+    $node = navigation_node::create(get_string('ibobprefs', 'local_ibob'),
+        new moodle_url('/local/obf/userconfig.php'));
+    $ibobprefs->add_node($node);
+}
