@@ -33,7 +33,7 @@ $services = array(
 // We defined the web service functions to install.
 $functions = array(
         'local_ibob_hello_world' => array(
-                'classname'   => 'localibob_external',
+                'classname'   => 'local_ibob_external',
                 'methodname'  => 'hello_world',
                 'classpath'   => 'local/ibob/externallib.php',
                 'description' => 'Return Hello World FIRSTNAME. Can change the text (Hello World) sending a new text as parameter',
