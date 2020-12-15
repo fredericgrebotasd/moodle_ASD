@@ -25,8 +25,12 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['noBadgesFound'] = 'No badges found...';
-$string['modalBadgeDetail'] = 'Badge details';
-$string['pluginname'] = 'Inscription by open badges';
-$string['profilebadgelist'] = 'Open Badges list';
-$string['testbackpackapiurlexception'] = 'Error : cannot connect to the backpack';
+$string['noBadgesFound'] = 'Aucun badge trouvé...';
+$string['modalBadgeDetail'] = 'Détail du badge';
+$string['pluginname'] = 'Inscription par Open Badges';
+$string['profilebadgelist'] = 'Liste des Open Badges publics';
+$string['testbackpackapiurlexception'] = 'Erreur : Impossible de se connecter au backpack';
+$string['ibobprefs'] = 'Inscription par open badges (Ibob)';
+$string['ibobprefslink'] = 'Gérer votre configuration';
+$string['emaildescription'] = 'Saisissez (ou modifiez) dans le champs texte ci-dessous l\'email utilisé par votre compte Open Badge Passport';
+$string['invalidemail'] = 'Mèl invalide.';

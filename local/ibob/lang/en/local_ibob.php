@@ -30,3 +30,7 @@ $string['modalBadgeDetail'] = 'Badge details';
 $string['pluginname'] = 'Inscription by open badges';
 $string['profilebadgelist'] = 'Open Badges list';
 $string['testbackpackapiurlexception'] = 'Error : cannot connect to the backpack';
+$string['ibobprefs'] = 'Inscription by open badges (Ibob)';
+$string['ibobprefslink'] = 'Manage your configuration';
+$string['emaildescription'] = 'Write (or modify) here the mail used in your Open Badge Passport account.';
+$string['invalidemail'] = 'Invalid email.';
