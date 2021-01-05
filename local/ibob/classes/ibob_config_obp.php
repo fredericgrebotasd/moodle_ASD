@@ -17,8 +17,14 @@ class ibob_config_obp extends \core\persistent
      */
     public static function define_properties() {
         return array(
+            'provider_id' => array(
+                'type' => PARAM_INT,
+            ),
             'key_field' => array(
                 'type' => PARAM_TEXT,
+            ),
+            'user_id' => array(
+                'type' => PARAM_INT,
             ),
         );
     }

@@ -39,6 +39,7 @@ function get_user_providers($userid) {
                 WHERE   {local_ibob_user_apikey}.user_id=:userid";
     return $DB->get_record_sql($sql,array("userid"=>$userid));
 }
+
 function get_user_provider_json($url,$email) {
     $curl = new curl();
     $fullurl = $url. 'convert/email';
@@ -49,12 +50,12 @@ function get_user_provider_json($url,$email) {
     return array('json'=>$json,'code'=>$code,'fullurl'=>$fullurl,'curl'=>$curl);
 }
 
-function print_badge($imgsize,$img,$name,$description,$badgeid) {
+function print_badge($imgsize,$img,$name,$description,$badgeuniqueid,$badgeid) {
     $params = array("src" => $img, "alt" => $name, "width" => $imgsize);
     $badgeimage = html_writer::empty_tag("img", $params);
     $badgename = html_writer::tag('p', s($name), array('class' => 'badgename'));
-    $badgedescription = html_writer::tag('p', s($description), array('class' => 'description'));
-    $extra = '';
+//    $badgedescription = html_writer::tag('p', s($description), array('class' => 'description'));
+//    $extra = '';
 //    $divclass = array('class'=>'ibob-badge');
 //            if ($assertion->badge_has_expired()) {
 //                $divclass .= ' expired-assertion';
@@ -63,36 +64,8 @@ function print_badge($imgsize,$img,$name,$description,$badgeid) {
 //            if ($large) {
 //                $divclass .= ' large';
 //            }
-    return html_writer::tag('div', $badgeimage . $badgename ,array('class'=>'ibob-badge','id'=>$badgeid));
-}
-
-
-function print_modal($modalid) {
-    global $PAGE, $CFG;
-
-
-//    $PAGE->requires->js( new moodle_url('https://code.jquery.com/jquery-3.4.1.min.js'));
-//            $PAGE->requires->js( new moodle_url('https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js'));
-//    $PAGE->requires->js( new moodle_url($CFG->wwwroot.'/local/ibob/amd/userbadgedisplayer.js'));
-//    return html_writer::div('<p>test modal !!!</p>', 'modal', array('id' => 'diaglogshowbadge'));
-
-//    <div class="modal fade" tabindex="-1" role="dialog">
-//  <div class="modal-dialog" role="document">
-//    <div class="modal-content">
-//      <div class="modal-header">
-//        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-//        <h4 class="modal-title">Modal title</h4>
-//      </div>
-//      <div class="modal-body">
-//        <p>One fine body&hellip;</p>
-//      </div>
-//      <div class="modal-footer">
-//        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-//        <button type="button" class="btn btn-primary">Save changes</button>
-//      </div>
-//    </div><!-- /.modal-content -->
-//  </div><!-- /.modal-dialog -->
-//</div>
+//    return html_writer::tag('div', $badgeimage . $badgename ,array('class'=>'ibob-badge','id'=>$badgeid));
+    return html_writer::div($badgeimage . $badgename, "ibob-badge", array('id'=>$badgeuniqueid,'data-id'=>$badgeid));
 }
 
 function local_ibob_myprofile_navigation(\core_user\output\myprofile\tree $tree, $user, $iscurrentuser, $course) {
@@ -174,13 +147,9 @@ function local_ibob_myprofile_navigation(\core_user\output\myprofile\tree $tree,
             // Print badges
             $content='';
             foreach ($abadges as $abadge){
-//                echo "<hr>";print_r($abadge);echo "<hr>";
                 $badge = $abadge['assertion']['badge'];
-//                echo "<hr>";print_r($badge);echo "<hr>";
                 // insert in database if not already present
-//                if(!$DB->record_exists('local_ibob_badges', array('name'=>$badge['name']))){
                 $badgeid = $DB->get_field_select('local_ibob_badges','id', 'name=:name', array('name'=>$badge['name']));
-//                $returnid = $DB->get_record_select('local_ibob_badges', 'name=:name', array('name'=>$badge['name']), $fields='id');
                 if(!$badgeid){
                     $obadge = new stdClass();
                     $obadge->name = $badge['name'];
@@ -204,11 +173,15 @@ function local_ibob_myprofile_navigation(\core_user\output\myprofile\tree $tree,
                     $DB->insert_record('local_ibob_badge_issued', $obadgeissued);
                 }
 
-                $badgeuniqueid=html_writer::random_id('badge_');
-                $content.=print_badge(BADGE_IMAGE_SIZE_NORMAL,$badge['image'],$badge['name'],$badge['description'],$badgeuniqueid);
+//                $badgeuniqueid=html_writer::random_id('badge_');
+                $badgeuniqueid='badge_'.$badgeid;
+//                $content.=print_badge(BADGE_IMAGE_SIZE_NORMAL,$badge['image'],$badge['name'],$badge['description'],$badgeuniqueid);
+                $content.=print_badge(BADGE_IMAGE_SIZE_NORMAL,$badge['image'],$badge['name'],$badge['description'],$badgeuniqueid,$badgeid);
 //                $PAGE->requires->js_call_amd('local_ibob/userbadgedisplayer', 'initBadge', [array('badgeId'=>$badgeuniqueid,'context'=>(array) $badge)]);
-                $PAGE->requires->js_call_amd('local_ibob/userbadgedisplayer', 'initBadge', [array('badgeId'=>$badgeuniqueid,'context'=>(array) $badge)]);
+//                $PAGE->requires->js_call_amd('local_ibob/userbadgedisplayer', 'initBadge', [array('badgeId'=>$badgeuniqueid,'context'=>(array) $badge)]);
+//                $PAGE->requires->js_call_amd('local_ibob/userbadgedisplayer', 'initBadge', [array('badgeid'=>$badgeuniqueid,'context'=>(array) $badge)]);
             }
+            $PAGE->requires->js_call_amd('local_ibob/userbadgedisplayer', 'init');
 //            $content.=print_modal('diaglogshowbadge');
         } else {
             $content = html_writer::tag('div', get_string('noBadgesFound', 'local_ibob'), array('class' => 'no-badges-found'));
@@ -226,10 +199,11 @@ function local_ibob_myprofile_navigation(\core_user\output\myprofile\tree $tree,
  * @param settings_navigation $navigation
  */
 function local_ibob_extend_settings_navigation(settings_navigation $navigation) {
-    global $COURSE;
-    $branch = $navigation->find('usercurrentsettings', navigation_node::TYPE_CONTAINER);
-    $ibobprefs = $branch->add(get_string('ibobprefs'), null, navigation_node::TYPE_CONTAINER, 'Ibob pref', 'ibobprefs');
-    $node = navigation_node::create(get_string('ibobprefs', 'local_ibob'),
-        new moodle_url('/local/obf/userconfig.php'));
-    $ibobprefs->add_node($node);
+    if(isloggedin() and !isguestuser()){
+        $branch = $navigation->find('usercurrentsettings', navigation_node::TYPE_CONTAINER);
+        $ibobprefs = $branch->add(get_string('ibobprefs', 'local_ibob'), null, navigation_node::TYPE_CONTAINER, 'Ibob pref', 'ibobprefs');
+        $node = navigation_node::create(get_string('ibobprefslink', 'local_ibob'),
+            new moodle_url('/local/ibob/userconfig.php'));
+        $ibobprefs->add_node($node);
+    }
 }

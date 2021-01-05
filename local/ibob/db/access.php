@@ -15,26 +15,21 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Displays the details of a single event from OBF.
+ * HTML block caps.
  *
- * @package    local_obf
- * @copyright  2013-2015, Discendum Oy
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     block_todo
+ * @copyright   2020 Your Name <you@example.com>
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(__DIR__ . '/../../config.php');
+defined('MOODLE_INTERNAL') || die();
 
-
-require_login();
-
-
-$PAGE->set_context(context_system::instance());
-$PAGE->set_url(new moodle_url('/local/ibob/textajax.php'));
-$PAGE->set_title(get_string('ibob', 'local_ibob'));
-
-$PAGE->requires->js_call_amd('local_ibob/ajaxcalls', 'init');
-echo $OUTPUT->header();
-
-echo \html_writer::link('', 'Click me', array('class'=>'ajaxcall'));
-
-echo $OUTPUT->footer();
+$capabilities = array(
+    'local/ibob:emailnotifycourseobcreated' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM,
+        'archetypes' => array(
+            'user' => CAP_ALLOW
+        ),
+    ),
+);

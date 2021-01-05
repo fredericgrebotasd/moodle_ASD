@@ -21,16 +21,18 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-// We define the services to install as pre-build services. A pre-build service is not editable by administrator.
 $services = array(
-    'My service' => array(
-        'functions' => array ('local_ibob_hello_world'),
-        'restrictedusers' => 0,
-        'enabled'=>1,
+    'mypluginservice' => array(                      //the name of the web service
+        'functions' => array ('local_ibob_loadsettings', 'local_ibob_updatesettings'), //web service functions of this service
+        'requiredcapability' => '',                //if set, the web service user need this capability to access
+        //any function of this service. For example: 'some/capability:specified'
+        'restrictedusers' =>0,                      //if enabled, the Moodle administrator must link some user to this service
+        //into the administration
+        'enabled'=>1,                               //if enabled, the service can be reachable on a default installation
+        'shortname'=>'mytesttestservice' //the short name used to refer to this service from elsewhere including when fetching a token
     )
 );
 
-// We defined the web service functions to install.
 $functions = array(
         'local_ibob_hello_world' => array(
                 'classname'   => 'local_ibob_external',
@@ -40,6 +42,27 @@ $functions = array(
                 'type'        => 'read',
                 'ajax' => true,
                 'loginrequired' => true,
-        )
+        ),
+    'local_ibob_loadsettings' => array(
+        'classname' => 'local_ibob_external',
+        'methodname' => 'loadsettings',
+        'classpath' => 'local/ibob/externallib.php',
+        'description' => 'Load settings data',
+        'type' => 'read',
+        'ajax' => true,
+        'loginrequired' => true,
+    ),
+    'local_ibob_updatesettings' => array(
+        'classname' => 'local_ibob_external',
+        'methodname' => 'updatesettings',
+        'classpath' => 'local/ibob/externallib.php',
+        'description' => 'Update settings data',
+        'type' => 'write',
+        'ajax' => true,
+        'loginrequired' => true,
+    )
 );
+
+
+
 

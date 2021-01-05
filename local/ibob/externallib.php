@@ -20,54 +20,80 @@
  * @copyright  2011 Moodle Pty Ltd (http://moodle.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-require_once($CFG->libdir . "/externallib.php");
+require_once("$CFG->libdir/externallib.php");
 
-class local_ibob_external extends external_api {
+class mod_testtest_external extends external_api {
 
-    /**
-     * Returns description of method parameters
-     * @return external_function_parameters
-     */
-    public static function hello_world_parameters() {
+    public static function loadsettings_parameters() {
         return new external_function_parameters(
-                array('welcomemessage' => new external_value(PARAM_TEXT, 'The welcome message. By default it is "Hello world,"', VALUE_DEFAULT, 'Hello world, '))
+            array(
+                'itemid' => new external_value(PARAM_INT, 'The item id to operate on'),
+            )
         );
     }
 
-    /**
-     * Returns welcome message
-     * @return string welcome message
-     */
-    public static function hello_world($welcomemessage = 'Hello world, ') {
-        global $USER;
+    public static function loadsettings_returns() {
+        return new external_multiple_structure(
+            new external_single_structure(
+                array(
+                    'content' => new external_value(PARAM_RAW, 'settings content text'),
+                )
+            )
+        );
+    }
 
-        //Parameter validation
-        //REQUIRED
-        $params = self::validate_parameters(self::hello_world_parameters(),
-                array('welcomemessage' => $welcomemessage));
+    public static function loadsettings($itemid) {
+        global $DB;
+        //$params = self::validate_parameters(self::getExample_parameters(), array());
+        $params = self::validate_parameters(self::loadsettings_parameters(),
+            array('itemid'=>$itemid));
 
-        //Context validation
-        //OPTIONAL but in most web service it should present
-        $context = context_module::instance(CONTEXT_USER, $USER->id);
-        self::validate_context($context);
+        $sql = 'SELECT server FROM {listeGlobale} WHERE id = ?';
+        $paramsDB = $params; //array($itemid);
+        $db_result = $DB->get_records_sql($sql,$paramsDB);
 
-        //Capability checking
-        //OPTIONAL but in most web service it should present
-        if (!has_capability('moodle/user:viewdetails', $context)) {
-            throw new moodle_exception('cannotviewprofile');
+        return $db_result;
+    }
+
+    public static function updatesettings_parameters() {
+        return new external_function_parameters(
+
+            array(
+                'itemid' => new external_value(PARAM_INT, 'The item id to operate on'),
+                'data2update' => new external_value(PARAM_TEXT, 'Update data'))
+        );
+    }
+
+    public static function updatesettings_returns() {
+        return new external_multiple_structure(
+            new external_single_structure(
+                array(
+                    'content' => new external_value(PARAM_RAW, 'settings content text'),
+                )
+            )
+        );
+    }
+
+    public static function updatesettings($itemid, $data2update) {
+        global $DB;
+        //$params = self::validate_parameters(self::getExample_parameters(), array());
+        $params = self::validate_parameters(self::updatesettings_parameters(),
+            array('itemid'=>$itemid, 'data2update'=>$data2update));
+
+        $newdata = new stdClass();
+        $newdata->id = $itemid;
+        $newdata->url = "url de test";
+        $newdata->server = $data2update;
+        if ($DB->record_exists('listeGlobale', array('id' => $itemid))) {
+            $DB->update_record('listeGlobale', $newdata);
         }
 
-        return $params['welcomemessage'] . $USER->firstname ;
+
+        $sql = 'SELECT server FROM {listeGlobale} WHERE id = ?';
+        $paramsDB = array($itemid);
+        $db_result = $DB->get_records_sql($sql,$paramsDB);
+
+        return $db_result;
     }
-
-    /**
-     * Returns description of method result value
-     * @return external_description
-     */
-    public static function hello_world_returns() {
-        return new external_value(PARAM_TEXT, 'The welcome message + user first name');
-    }
-
-
 
 }

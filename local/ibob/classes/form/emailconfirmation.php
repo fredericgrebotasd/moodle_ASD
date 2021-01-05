@@ -39,10 +39,12 @@ class userconfig extends \moodleform {
 
         $mform = $this->_form;
         $mform->addElement('html', '<div class="formheader"><h2>'.get_string('emaildescription','local_ibob').'</h2></div>');
-        $mform->addElement('text', 'providerapikey', get_string('email'));
+        $mform->addElement('text', 'providerapikey', get_string('email'),array('size'=>'35'));
         $mform->setType('providerapikey', PARAM_EMAIL);
         $mform->addRule('providerapikey', get_string('invalidemail','local_ibob'), 'email', null, 'client');
         $this->add_action_buttons();
+        $mform->addElement('hidden', 'hasprovider', null);
+        $mform->setType('hasprovider', PARAM_INT);
 
         function validation($data, $files) {
             return array();
