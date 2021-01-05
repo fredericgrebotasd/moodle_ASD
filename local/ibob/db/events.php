@@ -11,10 +11,12 @@ defined('MOODLE_INTERNAL') or die();
 $observers = array(
     array(
         'eventname' => '\core\event\enrol_instance_created',
-        'callback' => '\local_ibob\observers\adhoc_task_enrol_ibob::enrol_instance_created',
+        'callback' => 'local_ibob\observer\observer_enrol_ibob::enrol_instance_created',
+        'priority'    => 9999,
     ),
-//    array(
-//        'eventname' => '\core\event\course_updated',
-//        'callback' => '\local_ibob\observers\course::course_created',
-//    ),
+    array(
+        'eventname' => '\core\event\enrol_instance_updated',
+        'callback' => 'local_ibob\observer\observer_enrol_ibob::enrol_instance_updated',
+        'priority'    => 9999,
+    ),
 );

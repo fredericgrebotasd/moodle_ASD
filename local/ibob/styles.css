@@ -1,6 +1,3 @@
-/**
- * Modal
- */
 
 /**
  * Badge list
@@ -8,7 +5,6 @@
 .local-ibob ul.badgelist { list-style: none; margin: 0; overflow: hidden; padding: 10px; }
 .local-ibob .ibob-badge a { color: inherit; text-decoration: none; display: block; }
 .local-ibob .ibob-badge img { max-height: 90px; margin: 15px 0; }
-#ibob-assertion-panel .yui3-widget-hd { background: #FFF none repeat scroll 0% 0%; color: #7F7179; text-transform: uppercase; }
 .local-ibob .ibob-badge { text-align: center; float: left; margin: 0px 15px 15px 0px; width: 120px; background: #FFF none repeat scroll 0% 0%; border: 1px solid #D2D2D2; color: #929292; box-shadow: 0px 4px 0px #DCDCDC; }
 .local-ibob .ibob-badge:hover { border-color: #aaa; }
 .local-ibob .ibob-badge p.badgename { margin: 0; padding: 5px 10px; width: 100px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; word-wrap: normal; }
@@ -19,30 +15,28 @@
 .local-ibob .ibob-badge:not(.large) p.description { display: none; }
 .local-ibob .ibob-badge.large { width: 280px; }
 .local-ibob .ibob-badge.large img { float: left; margin-left: 15px; }
-.local-ibob .ibob-badge.large p.badgename { outline: medium none; padding-left: 0px; color: #F59F48; font-size: 15px; font-weight: 500; line-height: 1.1em; width: 140px; text-align: left; overflow: auto; white-space: normal; }
+.local-ibob .ibob-badge.large p.badgename { outline: medium none; padding-left: 0px; color: #1177d1; font-size: 15px; font-weight: 500; line-height: 1.1em; width: 140px; text-align: left; overflow: auto; white-space: normal; }
 .local-ibob .ibob-badge.large p.badgename:before { display: none; }
 .local-ibob .ibob-badge.large p.description { text-align: left; position: relative; height: 4.8em; line-height: 1.2em; overflow: hidden; word-wrap: break-word; }
 .local-ibob .ibob-badge.large div.body { float: left; display: inline-block; width: 140px; margin: 15px; height: 8.6em; }
-/**
- * Backpack config
- */
-span.backpackconnected                      { color: #6a6; }
-span.backpackdisconnected                   { color: #a66; }
-.ibob-userconfig-group ul.badgelist li:hover { cursor: inherit; border-color: #ccc; }
 
 /**
- * Definition lists
+ * Badge Detail (modal)
  */
-dl.ibob-definition-list      { overflow: hidden; margin-left: 0; }
-dl.ibob-definition-list dt   { width: 100px; float: left; clear: left; padding-bottom: 5px;}
-dl.ibob-definition-list dd   { clear: right; margin-left: 120px; padding-bottom: 5px; }
+.ibob-modal .image-wrapper { float: left; width: 25%; text-align: center; }
+.ibob-modal h1.badgename { color: #7F7179; text-transform: uppercase; font-weight: 300; }
+.ibob-modal img { max-width: 100%; }
+.ibob-modal .ibob-modal-detail { margin-left: 25%; padding-left: 15px; min-height: 14em; }
+.ibob-modal .ibob-modal-detail a { color: #1177d1; text-decoration: none; }
+.ibob-modal label { display: inline-block; font-weight: 700; color: #7F7179; margin-right: 0.5em; }
+.ibob-modal label:after { content: ":"; }
+.ibob-assertion .ibob-modal-detail-issuer { width: 45%; float: right; }
+.ibob-assertion .ibob-modal-detail-description { width: 45%; float: left; }
 
-/**
- * Heading in badge-page
- */
-.path-local-ibob .badgeheading               { overflow: hidden; padding-bottom: 10px; }
-.path-local-ibob .badgeheading h2            { float: left; margin-right: 15px; }
-.path-local-ibob .badgeheading .singlebutton { margin-top: 15px; }
+
+
+
+
 
 /**
  * Badge details

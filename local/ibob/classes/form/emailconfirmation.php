@@ -17,7 +17,7 @@
 namespace local_ibob\form;
 
 /**
- * User config form.
+ * User confirmation form.
  *
  * @package    local_ibob
  * @copyright  2020 Frédéric Grebot <frederic.grebot@agrosupdijon.fr>
@@ -29,7 +29,7 @@ global $CFG;
 
 require_once($CFG->libdir.'/formslib.php');
 
-class userconfig extends \moodleform {
+class emailconfirmation extends \moodleform {
 
     /**
      * Defines forms elements
@@ -38,13 +38,13 @@ class userconfig extends \moodleform {
         global $CFG;
 
         $mform = $this->_form;
-        $mform->addElement('html', '<div class="formheader"><h2>'.get_string('emaildescription','local_ibob').'</h2></div>');
-        $mform->addElement('text', 'providerapikey', get_string('email'),array('size'=>'35'));
-        $mform->setType('providerapikey', PARAM_EMAIL);
-        $mform->addRule('providerapikey', get_string('invalidemail','local_ibob'), 'email', null, 'client');
+        $mform->addElement('html', '<div class="formheader"><h2>'.get_string('emailconfirmationdescription','local_ibob').'</h2></div>');
+        $mform->addElement('text', 'emailconfirmationcode', get_string('emailconfirmationcode','local_ibob'),array('size'=>'6'));
+        $mform->setType('emailconfirmationcode', PARAM_INT);
+        $mform->addRule('emailconfirmationcode', get_string('invalidcode','local_ibob'), 'numeric', null, 'client');
+        $mform->addRule('emailconfirmationcode', get_string('invalidcode','local_ibob'), 'minlength', 4, 'client');
+        $mform->addRule('emailconfirmationcode', get_string('invalidcode','local_ibob'), 'maxlength', 4, 'client');
         $this->add_action_buttons();
-        $mform->addElement('hidden', 'hasprovider', null);
-        $mform->setType('hasprovider', PARAM_INT);
 
         function validation($data, $files) {
             return array();

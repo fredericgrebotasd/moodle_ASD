@@ -34,7 +34,7 @@ const BADGE_IMAGE_SIZE_NORMAL = 50;
 
 function get_user_providers($userid) {
     global $DB;
-    $sql ="SELECT   {local_ibob_providers}.apiurl,{local_ibob_user_apikey}.key_field 
+    $sql ="SELECT   {local_ibob_providers}.apiurl,{local_ibob_user_apikey}.key_field
                 FROM    {local_ibob_user_apikey} JOIN {local_ibob_providers} ON {local_ibob_providers}.id={local_ibob_user_apikey}.provider_id 
                 WHERE   {local_ibob_user_apikey}.user_id=:userid";
     return $DB->get_record_sql($sql,array("userid"=>$userid));
@@ -71,7 +71,6 @@ function print_badge($imgsize,$img,$name,$description,$badgeuniqueid,$badgeid) {
 function local_ibob_myprofile_navigation(\core_user\output\myprofile\tree $tree, $user, $iscurrentuser, $course) {
     global $CFG, $USER, $PAGE, $DB;
 
-//    require_once(__DIR__ . '/class/user_preferences.php');
 
     require_once($CFG->libdir . '/filelib.php');
     $userid=$USER->id;
@@ -83,7 +82,6 @@ function local_ibob_myprofile_navigation(\core_user\output\myprofile\tree $tree,
 //    ){
 //        $show=1;
 //    }
-//    print_r($show);
     $show=1; // a modifier plus tard si on rajoute la possibilité d'afficher ou pas les openbadges au niveau du profil
     if ($show) {
         $category = new core_user\output\myprofile\category('local_ibob/badges', get_string('profilebadgelist', 'local_ibob'), null);
@@ -91,51 +89,50 @@ function local_ibob_myprofile_navigation(\core_user\output\myprofile\tree $tree,
 
         // Open Badges list construction
         $ouserprovider = get_user_providers($userid);
-
+        $abadges=array();
         if($ouserprovider){ // user has a provider
             $url = $ouserprovider->apiurl;
             $oApiKey=json_decode($ouserprovider->key_field);
             $email = $oApiKey->email;
-        } else { // Default configuration
-            $url = 'https://openbadgepassport.com/displayer/';
-            $email = $USER->email;
-        }
-        $aCurl = get_user_provider_json($url,$email);
-        if (is_null($aCurl['json']) && $aCurl['code'] != 200) {
-            throw new Exception(get_string('testbackpackapiurlexception', 'local_ibob',
-                    (object)array('url' => $aCurl['fullurl'], 'errorcode' => $aCurl['code']))
-                , $aCurl['code']);
-        } else {
-            if(!is_array($aCurl['json']->userId)){
-                $aJson=array($aCurl['json']->userId);
+            $aCurl = get_user_provider_json($url,$email);
+//            print_r($aCurl);
+            if (is_null($aCurl['json']) && $aCurl['code'] != 200) {
+                throw new Exception(get_string('testbackpackapiurlexception', 'local_ibob',
+                        (object)array('url' => $aCurl['fullurl'], 'errorcode' => $aCurl['code']))
+                    , $aCurl['code']);
             } else {
-                $aJson=$aCurl['json']->userId;
-            }
-            // Global Public/social Openbadges List (public group : 0 and 1)
-            $agroupid=array(0,1);
-            $abadges=array();
-            foreach ($aJson as $backpackitem){
-                foreach ($agroupid as $groupid){
-                    $fullurl = $url. $backpackitem .'/group/'.$groupid.'.json';
-                    $output = $aCurl['curl']->get($fullurl);
-//                    $aListBadgesUser=json_decode($output);
-                    $alistbadgesuser = json_decode($output, true);
-                    // badge suppression if expiration date > now
-                    if(count($alistbadgesuser) > 2){
-                        foreach($alistbadgesuser['badges'] as $abadgetemp){
-                            if(isset($abadgetemp['assertion']['expires'])){
-                                if($abadgetemp['assertion']['expires']!==''){
-                                    if($abadgetemp['assertion']['expires']>time()){
+                if($aCurl['code'] === 200){
+                    if(!is_array($aCurl['json']->userId)){
+                        $aJson=array($aCurl['json']->userId);
+                    } else {
+                        $aJson=$aCurl['json']->userId;
+                    }
+                    // Global Public/social Openbadges List (public group : 0 and 1)
+                    $agroupid=array(0,1);
+                    foreach ($aJson as $backpackitem){
+                        foreach ($agroupid as $groupid){
+                            $fullurl = $url. $backpackitem .'/group/'.$groupid.'.json';
+                            $output = $aCurl['curl']->get($fullurl);
+                            $alistbadgesuser = json_decode($output, true);
+                            // badge suppression if expiration date > now
+                            if(count($alistbadgesuser) > 2){
+                                foreach($alistbadgesuser['badges'] as $abadgetemp){
+                                    if(isset($abadgetemp['assertion']['expires'])){
+                                        if($abadgetemp['assertion']['expires']!==''){
+                                            if($abadgetemp['assertion']['expires']>time()){
+                                                $abadges[]=$abadgetemp;
+                                            } elseif ($idbadge=$DB->get_record_select('local_ibob_badges', 'name=:name', array('name'=>$abadgetemp['name']), $fields='id', $strictness=IGNORE_MISSING)){
+//                                                $DB->delete_records('local_ibob_badges', array('id'=>$idbadge));
+                                                $DB->delete_records('local_ibob_badge_issued', array('badgeid'=>$idbadge,'userid'=>$userid));
+                                            }
+                                        } else {
+                                            $abadges[]=$abadgetemp;
+                                        }
+                                    } else {
+                                        $abadgetemp['assertion']['expires']='';
                                         $abadges[]=$abadgetemp;
-                                    } elseif ($idbadge=$DB->get_record_select('local_ibob_badges', 'name=:name', array('name'=>$abadgetemp['name']), $fields='id', $strictness=IGNORE_MISSING)){
-                                        $DB->delete_records('local_ibob_badges', array('id'=>$idbadge));
                                     }
-                                } else {
-                                    $abadges[]=$abadgetemp;
                                 }
-                            } else {
-                                $abadgetemp['assertion']['expires']='';
-                                $abadges[]=$abadgetemp;
                             }
                         }
                     }
@@ -160,6 +157,7 @@ function local_ibob_myprofile_navigation(\core_user\output\myprofile\tree $tree,
                     $obadge->image = $badge['image'];
                     $obadge->usermodified = $userid;
                     $obadge->timecreated = time();
+                    $obadge->timecreated = time();
 //                    $obadge->group = $badge['issuer']['group'];
                     $badgeid = $DB->insert_record('local_ibob_badges', $obadge);
                 }
@@ -173,16 +171,10 @@ function local_ibob_myprofile_navigation(\core_user\output\myprofile\tree $tree,
                     $DB->insert_record('local_ibob_badge_issued', $obadgeissued);
                 }
 
-//                $badgeuniqueid=html_writer::random_id('badge_');
                 $badgeuniqueid='badge_'.$badgeid;
-//                $content.=print_badge(BADGE_IMAGE_SIZE_NORMAL,$badge['image'],$badge['name'],$badge['description'],$badgeuniqueid);
                 $content.=print_badge(BADGE_IMAGE_SIZE_NORMAL,$badge['image'],$badge['name'],$badge['description'],$badgeuniqueid,$badgeid);
-//                $PAGE->requires->js_call_amd('local_ibob/userbadgedisplayer', 'initBadge', [array('badgeId'=>$badgeuniqueid,'context'=>(array) $badge)]);
-//                $PAGE->requires->js_call_amd('local_ibob/userbadgedisplayer', 'initBadge', [array('badgeId'=>$badgeuniqueid,'context'=>(array) $badge)]);
-//                $PAGE->requires->js_call_amd('local_ibob/userbadgedisplayer', 'initBadge', [array('badgeid'=>$badgeuniqueid,'context'=>(array) $badge)]);
             }
             $PAGE->requires->js_call_amd('local_ibob/userbadgedisplayer', 'init');
-//            $content.=print_modal('diaglogshowbadge');
         } else {
             $content = html_writer::tag('div', get_string('noBadgesFound', 'local_ibob'), array('class' => 'no-badges-found'));
         }
@@ -194,7 +186,7 @@ function local_ibob_myprofile_navigation(\core_user\output\myprofile\tree $tree,
 }
 
 /**
- * Adds the OBF-links to Moodle's settings navigation.
+ * Adds the IBOB-links to Moodle's settings navigation.
  *
  * @param settings_navigation $navigation
  */

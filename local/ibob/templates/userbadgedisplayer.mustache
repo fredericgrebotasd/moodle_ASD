@@ -1,5 +1,15 @@
-<div>
-    <h1>{{ name }}</h1>
-    <p><img src="{{ image }}" alt="badge - {{ name }}"></p>
-    <p>{{ description }}</p>
+<div class="ibob-modal">
+    <div class="image-wrapper"><img src="{{ image }}" alt="badge - {{ name }}"></div>
+    <div class="ibob-modal-detail">
+        <div class="ibob-modal-detail-assertion">
+            <h1 class="badgename">{{ name }}</h1>
+            <div><label>Date d'émission</label>{{ datecreated }}</div>
+            <div><label>Expire le</label>{{ dateexpiration }}</div>
+        </div>
+        <div class="ibob-modal-detail-issuer">
+            <label>Emetteur</label> <a class="ibob-modal-detail-issuer-url" href="{{ issuerurl }}" target="_blank">{{ issuername }}</a> - <a href="mailto:{{ issuercontact }}">{{ issuercontact }}</a></div>
+        <div class="ibob-modal-detail-description">
+            {{ description }}
+        </div>
+    </div>
 </div>

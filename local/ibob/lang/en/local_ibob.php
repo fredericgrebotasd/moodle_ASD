@@ -1,19 +1,4 @@
 <?php
-// This file is part of Moodle - https://moodle.org/
-//
-// Moodle is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// Moodle is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
-
 /**
  * Plugin strings are defined here.
  *
@@ -32,5 +17,20 @@ $string['profilebadgelist'] = 'Open Badges list';
 $string['testbackpackapiurlexception'] = 'Error : cannot connect to the backpack';
 $string['ibobprefs'] = 'Inscription by open badges (Ibob)';
 $string['ibobprefslink'] = 'Manage your configuration';
-$string['emaildescription'] = 'Write (or modify) here the mail used in your Open Badge Passport account.';
+$string['emaildescription'] = 'Type here the mail used in your Open Badge Passport account. Leave blank to delete your open badges from moodle.';
 $string['invalidemail'] = 'Invalid email.';
+$string['messageprovider:defaults'] = 'Email modification demand for Open Badge Passport (ibob)';
+$string['messageprovider:enrolcreatedupdated'] = 'A new course accesible by your Open Badges is open';
+$string['messageprovider:ibobemailchange'] = 'Open Badge Passport email change made';
+$string['emailvalidated'] = 'Email validated';
+$string['emailvalidatedno'] = 'No';
+$string['emailvalidatedyes'] = 'Yes';
+$string['addvalidationcodelink'] = 'Validation code received ? Type it here';
+$string['emailconfirmationdescription'] = 'Put your confirmation code here';
+$string['emailconfirmationcode'] = 'Code';
+$string['emailconfirmationinvalidcode'] = 'Invalid code !';
+$string['emailconfirmationexpirationdatereached'] = 'The expiration date has been reached...';
+$string['emailconfirmationlinknewcode'] = 'Clic here to generate a new one';
+$string['emailconfirmationreturn'] = 'Back';
+$string['emailsequenceexplanation'] = 'You will receive an email with a validation code. Your account will not be updated until you confirm your email address.';
+$string['invalidcode'] = 'Your code must be a 4 digit number';

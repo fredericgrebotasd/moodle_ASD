@@ -1,22 +1,31 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: fred
- * Date: 15/12/20
- * Time: 11:23
- */
-/**
- * Code to be executed after the plugin's database scheme has been installed is defined here.
+ * Plugin message provider.
  *
- * @package     block_todo
- * @category    upgrade
- * @copyright   2020 Your Name <you@example.com>
+ * @package     local_ibob
+ * @category    message
+ * @copyright   2020 Frédéric Grebot <frederic.grebot@agrosupdijon.fr>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 $messageproviders = array(
-    'courseobcreated' => array(
-        'capability' => 'local/ibob:emailnotifycourseobcreated'
+    'enrolcreatedupdated' => array(
+        'capability' => 'local/ibob:emailnotifyenrolibob',
+        'defaults' => array(
+            'popup' => MESSAGE_FORCED,
+            'email' => MESSAGE_PERMITTED + MESSAGE_DEFAULT_LOGGEDIN + MESSAGE_DEFAULT_LOGGEDOFF,
+        ),
     ),
+    'ibobemailchange' => array(
+        'capability' => 'local/ibob:ibobemailchange',
+        'defaults' => array(
+            'popup' => MESSAGE_DISALLOWED,
+            'email' => MESSAGE_PERMITTED + MESSAGE_DEFAULT_LOGGEDIN + MESSAGE_DEFAULT_LOGGEDOFF,
+        ),
+    ),
+//    'defaults' => [
+//        'popup' => MESSAGE_DISALLOWED,
+//        'email' => MESSAGE_PERMITTED
+//    ],
 );

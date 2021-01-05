@@ -26,6 +26,6 @@ defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_ibob';
 $plugin->release = '0.1.0';
-$plugin->version = 2020112616;
+$plugin->version = 2020112644;
 $plugin->requires = 2019111800;
 $plugin->maturity = MATURITY_ALPHA;

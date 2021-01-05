@@ -43,48 +43,47 @@ function xmldb_local_ibob_install() {
     $DB->insert_record('local_ibob_providers', $oBackpackProvider);
     unset($oBackpackProvider);
 
-    // Set custom fields in user profile
-    $oCustomField = new stdClass();
-    $oCustomField->shortname = 'hasimportedfromexternalob';
-    $oCustomField->name = 'Has imported from external source of badges';
-    $oCustomField->datatype = 'text';
-    $oCustomField->description = '<p>Has imported from external source of badges</p>';
-    $oCustomField->descriptionformat = 1;
-    $oCustomField->categoryid = 1;
-    $oCustomField->sortorder = 1;
-    $oCustomField->required = 0;
-    $oCustomField->locked = 0;
-    $oCustomField->visible = 0;
-    $oCustomField->forceunique = 0;
-    $oCustomField->signup = 0;
-    $oCustomField->defaultdata = 0;
-    $oCustomField->param1 = 1;
-    $oCustomField->param2 = 1;
-    $oCustomField->param3 = 1;
-    $lastInsertedIdCustomFielsId = $DB->insert_record('user_info_field', $oCustomField, true);
-    unset($oCustomField);
+//    // Set custom fields in user profile
+//    $oCustomField = new stdClass();
+//    $oCustomField->shortname = 'hasimportedfromexternalob';
+//    $oCustomField->name = 'Has imported from external source of badges';
+//    $oCustomField->datatype = 'text';
+//    $oCustomField->description = '<p>Has imported from external source of badges</p>';
+//    $oCustomField->descriptionformat = 1;
+//    $oCustomField->categoryid = 1;
+//    $oCustomField->sortorder = 1;
+//    $oCustomField->required = 0;
+//    $oCustomField->locked = 0;
+//    $oCustomField->visible = 0;
+//    $oCustomField->forceunique = 0;
+//    $oCustomField->signup = 0;
+//    $oCustomField->defaultdata = 0;
+//    $oCustomField->param1 = 1;
+//    $oCustomField->param2 = 1;
+//    $oCustomField->param3 = 1;
+//    $lastInsertedIdCustomFielsId = $DB->insert_record('user_info_field', $oCustomField, true);
+//    unset($oCustomField);
 
-    // pour test ; l'admin (user_id=2) est automatiquement enregistré comme récupérant les obp (provider_id=1)
-    $DB->delete_records('user_info_data', array('userid'=>2));
-    $DB->delete_records('mdl_user_info_field', array('name'=>'Has imported from external source of badges'));
+//    // pour test ; l'admin (user_id=2) est automatiquement enregistré comme récupérant les obp (provider_id=1)
+//    $DB->delete_records('user_info_data', array('userid'=>2));
+//    $DB->delete_records('mdl_user_info_field', array('name'=>'Has imported from external source of badges'));
+//
+//    $oUserApikey = new stdClass();
+//    $oUserApikey->usermodified = 2;
+//    $oUserApikey->timecreated = time();
+//    $oUserApikey->provider_id = 1;
+//    $oUserApikey->key_field = json_encode(array('email' => 'frederic.grebot@gmail.com'));
+//    $oUserApikey->user_id = 2;
+//    $DB->insert_record('local_ibob_user_apikey', $oUserApikey);
+//    unset($oUserApikey);
 
-    $oUserApikey = new stdClass();
-    $oUserApikey->usermodified = 2;
-    $oUserApikey->timecreated = time();
-    $oUserApikey->provider_id = 1;
-    $oUserApikey->key_field = json_encode(array('email' => 'frederic.grebot@gmail.com'));
-    $oUserApikey->user_id = 2;
-    $DB->insert_record('local_ibob_user_apikey', $oUserApikey);
-    unset($oUserApikey);
-
-    $oUserCustomField = new stdClass();
-    $oUserCustomField->userid = 2;
-    $oUserCustomField->fieldid = $lastInsertedIdCustomFielsId;
-    $oUserCustomField->data = '0';
-    $DB->insert_record('user_info_data', $oUserCustomField);
-    unset($oUserCustomField);
-
-    // fin du test
+//    $oUserCustomField = new stdClass();
+//    $oUserCustomField->userid = 2;
+//    $oUserCustomField->fieldid = $lastInsertedIdCustomFielsId;
+//    $oUserCustomField->data = '0';
+//    $DB->insert_record('user_info_data', $oUserCustomField);
+//    unset($oUserCustomField);
+//     fin du test
 
     return true;
 }

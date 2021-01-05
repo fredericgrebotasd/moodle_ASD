@@ -25,7 +25,14 @@
 defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
-    'local/ibob:emailnotifycourseobcreated' => array(
+    'local/ibob:emailnotifyenrolibob' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM,
+        'archetypes' => array(
+            'user' => CAP_ALLOW
+        ),
+    ),
+    'local/ibob:ibobemailchange' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(

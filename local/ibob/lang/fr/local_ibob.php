@@ -1,19 +1,4 @@
 <?php
-// This file is part of Moodle - https://moodle.org/
-//
-// Moodle is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// Moodle is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
-
 /**
  * Plugin strings are defined here.
  *
@@ -32,5 +17,20 @@ $string['profilebadgelist'] = 'Liste des Open Badges publics';
 $string['testbackpackapiurlexception'] = 'Erreur : Impossible de se connecter au backpack';
 $string['ibobprefs'] = 'Inscription par open badges (Ibob)';
 $string['ibobprefslink'] = 'Gérer votre configuration';
-$string['emaildescription'] = 'Saisissez (ou modifiez) dans le champs texte ci-dessous l\'email utilisé par votre compte Open Badge Passport';
-$string['invalidemail'] = 'Mèl invalide.';
+$string['emaildescription'] = 'Saisissez dans le champs texte ci-dessous le courriel utilisé par votre compte Open Badge Passport. Laissez le vide pour supprimer vos open badges de moodle.';
+$string['invalidemail'] = 'Courriel invalide.';
+$string['messageprovider:defaults'] = 'Demande de changement de mèl pour Open badge passport (ibob)';
+$string['messageprovider:enrolcreatedupdated'] = 'Un nouveau cours accessible par vos Open Badge est disponible';
+$string['messageprovider:ibobemailchange'] = 'Changement de mèl Open Badge Passport effectué';
+$string['emailvalidated'] = 'Courriel validé';
+$string['emailvalidatedno'] = 'Non';
+$string['emailvalidatedyes'] = 'Oui';
+$string['emailconfirmationdescription'] = 'Ajouter votre code de validation ici';
+$string['addvalidationcodelink'] = 'Code de confirmation reçu ? Saisissez le ici';
+$string['emailconfirmationinvalidcode'] = 'Code inalide !';
+$string['emailconfirmationexpirationdatereached'] = 'La date d\'expiration est dépassée...';
+$string['emailconfirmationlinknewcode'] = 'Cliquer ici pour générer un nouveau code';
+$string['emailconfirmationreturn'] = 'Retour';
+$string['emailconfirmationcode'] = 'Code';
+$string['emailsequenceexplanation'] = 'Vous recevrez un mèl contenant un code de confirmation. Votre compte ne sera pas mis à jour tant que vous ne confirmerez pas votre adresse de courriel.';
+$string['invalidcode'] = 'Votre code doit être un nombre de 4 chiffres';
