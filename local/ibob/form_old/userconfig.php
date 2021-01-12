@@ -18,7 +18,7 @@ namespace \local_ibob\form;
  * User config form.
  *
  * @package    local_ibob
- * @copyright  2020 Frédéric Grebot <frederic.grebot@agrosupdijon.fr>
+ * @copyright  2020, frederic.grebot <frederic.grebot@agrosupdijon.fr>, Agrosup Dijon, DSI, CNERTA-WEB
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') or die();
